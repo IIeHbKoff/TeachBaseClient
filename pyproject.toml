@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "teachbaseclient"
-version = "0.2.1"
+version = "0.3.0"
 description = ""
 authors = ["AleksandrBelyan <belyan.alex93@gmail.com>"]
 readme = "README.md"
