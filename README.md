@@ -1,5 +1,13 @@
 # Teachbase Client
 
+## Cloning project for development
+1) You should install poetry package manager. Run sudo pip install poetry
+2) run poetry install for package installation
+3) run poetry env use python3.9 for creating poetry venv
+4) run poetry run ./manage.py migrate for apply existed migrations
+5) run poetry run ./manage.py runserver  for running development server 
+
+
 ## Running pipeline
 1) Create *.env* file with environment variables.
 2) Run *docker-compose build*
