@@ -1,0 +1,55 @@
+version: "2.4"
+services:
+  redis:
+    image: redis:latest
+    hostname: "redis"
+    stop_grace_period: 1m
+    stop_signal: SIGINT
+    networks:
+      service_network:
+        aliases:
+          - redis
+
+  postgresql:
+    image: postgres:latest
+    hostname: "postgres"
+    stop_grace_period: 1m
+    stop_signal: SIGINT
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER:  ${POSTGRES_USER}
+      POSTGRES_PASSWORD:  ${POSTGRES_PASSWORD}
+      PGDATA:  ${PGDATA}
+    networks:
+      service_network:
+        aliases:
+          - database
+
+  teachbase_client:
+    build: ./
+    hostname: "teachbase_client"
+    depends_on:
+      - postgresql
+      - redis
+    ports:
+      - "8000:8000"
+    environment:
+      SECRET_KEY: ${SECRET_KEY}
+      CLIENT_ID: ${CLIENT_ID}
+      CLIENT_SECRET: ${CLIENT_SECRET}
+      DB_HOST: ${POSTGRES_HOST}
+      DB_NAME: ${POSTGRES_DB}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_PORT: ${POSTGRES_PORT}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_USERNAME: ${REDIS_USERNAME}
+    networks:
+      service_network:
+        - aliases:
+            - teachbase-client
+
+networks:
+  service_network:
